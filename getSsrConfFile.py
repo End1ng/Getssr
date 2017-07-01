@@ -6,7 +6,7 @@ import json
 import sys
 import time
 
-filepath = "../../Program/shadowsocks/gui-config.json"
+filepath = "../../app/shadowsocks/gui-config.json"
 
 url = "https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 comp = re.compile("<p>服务器\d*.*?([\w\.]+)\s*端口.*?(\d*)\s*密码.*?([\w\.-]*)\s*加密方式.*?([\w-]*)</p>")
