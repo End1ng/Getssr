@@ -30,6 +30,8 @@ for i in html:
         count = count + 1
 for i, j in server_list.items():
     print 'ID:%-3dIP:%-18sPORT:%-6sPASS:%-16sMETHOD:%-sLOCATION:%-23s' % (i, j['i'], j['p'], j['k'], j['m'], j['s'])
+if not server_list:
+    sys.exit("列表为空")
 id = raw_input("请输入id:")
 while not id.isdigit() or int(id) not in server_list:
     id = raw_input("请输入正确的id:")
