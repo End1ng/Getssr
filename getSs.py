@@ -71,7 +71,6 @@ while not id.isdigit() or int(id) not in S:
     id = raw_input("请输入正确的id:")
 id = int(id)
 c = ssr_path + " -s %s -p %s -k %s -m %s -o %s -O %s -d restart -q --pid-file /tmp/shadowsocksr.pid --log-file /tmp/shadowsocksr.log> /dev/null 2>&1" % (S[id]['s'],S[id]['p'],S[id]['k'],S[id]['m'],S[id]['o'],S[id]['O'])
-print c
 if os.system(c) == 0:
     print "已开启服务: ID:%-4d地址:%-25s位置:%s" % (i, j['s'], j['l'].encode('utf-8'))
 else:
