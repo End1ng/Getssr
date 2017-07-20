@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# auther: end1ng
+# auther: ni7eip
 
 import requests, re, sys, os, signal, base64
 from bs4 import BeautifulSoup
