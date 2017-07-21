@@ -72,6 +72,6 @@ while not id.isdigit() or int(id) not in S:
 id = int(id)
 c = ssr_path + " -s %s -p %s -k %s -m %s -o %s -O %s -d restart -q --pid-file /tmp/shadowsocksr.pid --log-file /tmp/shadowsocksr.log> /dev/null 2>&1" % (S[id]['s'],S[id]['p'],S[id]['k'],S[id]['m'],S[id]['o'],S[id]['O'])
 if os.system(c) == 0:
-    print "已开启服务: ID:%-4d地址:%-25s位置:%s" % (id, S[id]['s'], S[id]['l'].encode('utf-8'))
+    print "已开启服务: ID:%-4d地址:%-30s位置:%s" % (id, S[id]['s'], S[id]['l'].encode('utf-8'))
 else:
     print "程序出错"
