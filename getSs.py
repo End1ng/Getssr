@@ -9,7 +9,7 @@ ssr_path = "/opt/shadowsocksr/shadowsocks/local.py"
 S = {}
 
 def CtrlCHandler(signum, frame):
-    sys.exit("再见")
+    sys.exit("\n再见!")
 signal.signal(signal.SIGINT, CtrlCHandler)
 
 def add_padding(data):
