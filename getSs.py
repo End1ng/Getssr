@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 ssr_path = "/opt/shadowsocksr/shadowsocks/local.py"
 S = {}
 
-if not os.path.exists('d:/assist/getTeacherList.py'):
+if not os.path.exists(ssr_path):
     sys.exit("未找到shadowsocksr 安装:\n➜  ~ sudo git clone https://github.com/Ni7eipr/shadowsocksr.git /opt/shadowsocks")
 def CtrlCHandler(signum, frame):
     sys.exit("\n再见!")
