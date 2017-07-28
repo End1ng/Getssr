@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 ssr_path = "/opt/shadowsocksr/shadowsocks/local.py"
 S = {}
 
+if not os.path.exists('d:/assist/getTeacherList.py'):
+    sys.exit("未找到shadowsocksr 安装:\n➜  ~ sudo git clone https://github.com/Ni7eipr/shadowsocksr.git /opt/shadowsocks")
 def CtrlCHandler(signum, frame):
     sys.exit("\n再见!")
 signal.signal(signal.SIGINT, CtrlCHandler)
@@ -26,12 +28,12 @@ def parse_ss(ss):
         return {'s':':'.join([ss[0],ss[1],ss[2],ss[3],ss[4],ss[5]]),'p':ss[6],'O':ss[7],'m':ss[8],'o':ss[9],'k':password}
     password = add_padding(ss[5].split('/')[0])
     return {'s':ss[0],'p':ss[1],'O':ss[2],'m':ss[3],'o':ss[4],'k':password}
+print "获取中......"
 
 url = "https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
 # comp_ogete_ss = re.compile("<p>服务器\d*(.*?)：([\w\.]+)\s*端口.*?(\d*)\s*密码.*?([\w\.-]*)\s*加密方式.*?([\w-]*)")
 comp_ogete_ssr = re.compile("<p>服务器\d+.+?([\w\.]+)\s*端口.+?(\d*)\s*密码.+?([\w\.-]*)\s*加密方式.+?([\w\.-]*)\s*SSR协议.+?协议.+?([\w\.-]*)\s*混淆.+?([\w\.-]*)\s*\（自建\）.*")
 try:
-    print "正在获取 " + url
     res = requests.get(url).content
 except:
     print "获取 " + url + " 失败"
@@ -46,7 +48,6 @@ for i in html:
 
 url = "https://doub.bid/sszhfx"
 try:
-    print "正在获取 " + url
     session = requests.Session()
     session.get(url)
     session.post("https://doub.bid/wp-login.php?action=postpass", data={'post_password':'doub.io'})
