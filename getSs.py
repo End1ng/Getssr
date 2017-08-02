@@ -50,7 +50,7 @@ url = "https://doub.bid/sszhfx"
 try:
     session = requests.Session()
     session.get(url)
-    session.post("https://doub.bid/wp-login.php?action=postpass", data={'post_password':'doub.io'})
+    session.post("https://doub.bid/wp-login.php?action=postpass", data={'post_password':'Toyo'})
     res = session.get(url).content
     soup = BeautifulSoup(res, 'lxml')
     for tr in soup.find_all('tr'):
