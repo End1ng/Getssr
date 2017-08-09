@@ -9,7 +9,7 @@ ssr_path = "/opt/shadowsocksr/shadowsocks/local.py"
 S = {}
 
 if not os.path.exists(ssr_path):
-    sys.exit("未找到shadowsocksr 安装:\n➜  ~ sudo git clone https://github.com/Ni7eipr/shadowsocksr.git /opt/shadowsocksr")
+    sys.exit("未找到shadowsocksr 请安装:\n  sudo git clone https://github.com/Ni7eipr/shadowsocksr.git /opt/shadowsocksr\n或更改配置:\n  8 ssr_path = \"path\"")
 def CtrlCHandler(signum, frame):
     sys.exit("\n再见!")
 signal.signal(signal.SIGINT, CtrlCHandler)
