@@ -68,12 +68,12 @@ def doub():
         print "获取 " + url + " 失败"
 
 # 检查缓存文件如果在1小时之内就加载缓存
-temp_file = 'temp_ss.json'
-if not os.path.exists(temp_file) or time.time() - os.path.getmtime(temp_file) > 3600:
+temp_file = '/tmp/ss_temp.json'
+if not os.path.exists(temp_file) or time.time() - os.path.getmtime(temp_file) > 3600 * 12:
     print "获取中......"
     doub()
     # Alvin9999()
-    open(temp_file, 'w').write(json.dumps(S)) if S else True
+    f = open(temp_file, 'w').write(json.dumps(S)) if S else True
 else:
     print "获取缓存数据 创建于%d分钟之前" % ((time.time() - os.path.getmtime(temp_file)) / 60)
     S = {int(i): j for i, j in json.loads(open(temp_file, 'r').read()).items()}
