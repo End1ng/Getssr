@@ -68,7 +68,7 @@ def doub():
         print "获取 " + url + " 失败"
 
 # 检查缓存文件如果在1小时之内就加载缓存
-temp_file = '/tmp/ss_temp.json'
+temp_file = '~/.getSsr/ss_temp.json'
 if not os.path.exists(temp_file) or time.time() - os.path.getmtime(temp_file) > 3600 * 12:
     print "获取中......"
     doub()
