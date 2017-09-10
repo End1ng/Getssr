@@ -6,6 +6,7 @@ import requests, re, sys, os, signal, base64, json, time
 from bs4 import BeautifulSoup
 
 ssr_path = "/opt/shadowsocksr/shadowsocks/local.py"
+temp_file = '~/.getSs_temp.json'
 S = {}
 
 if not os.path.exists(ssr_path):
@@ -68,7 +69,6 @@ def doub():
         print "获取 " + url + " 失败"
 
 # 检查缓存文件如果在1小时之内就加载缓存
-temp_file = '~/.getSsr/ss_temp.json'
 if not os.path.exists(temp_file) or time.time() - os.path.getmtime(temp_file) > 3600 * 12:
     print "获取中......"
     doub()
