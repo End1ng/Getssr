@@ -6,7 +6,7 @@ import requests, re, sys, os, signal, base64, json, time
 from bs4 import BeautifulSoup
 
 ssr_path = "/opt/shadowsocksr/shadowsocks/local.py"
-temp_file = '~/.getSs_temp.json'
+temp_file = os.path.expanduser('~') + '/.getSs_temp.json'
 S = {}
 
 if not os.path.exists(ssr_path):
@@ -85,4 +85,4 @@ id = -1
 while id not in S:
     id = int(raw_input("请输入正确的id:"))
 c = ssr_path + " -s %s -p %s -k %s -m %s -o %s -O %s -d restart -q --pid-file /tmp/shadowsocksr.pid --log-file /tmp/shadowsocksr.log> /dev/null 2>&1" % (S[id]['s'],S[id]['p'],S[id]['k'],S[id]['m'],S[id]['o'],S[id]['O'])
-print u'已开启服务:ID:' + str(i).ljust(4) + u'地址:' + j['s'].ljust(35) + u'位置:' + j['l'] if os.system(c) == 0 else "程序出错"
+print u'已开启服务:ID:' + str(id).ljust(4) + u'地址:' + S[id]['s'].ljust(35) + u'位置:' + S[id]['l'] if os.system(c) == 0 else "程序出错"
