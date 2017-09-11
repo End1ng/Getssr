@@ -84,8 +84,11 @@ True if S else sys.exit("未获取到数据")
 
 for i, j in S.items():
     print 'ID:' + str(i).ljust(4) + u'地址:' + j['s'].ljust(35) + u'位置:' + j['l']
+
 id = -1
 while id not in S:
-    raw_input("请输入id:") if raw_input("请输入id:").isdigit() else -1
+    id = raw_input("请输入id:")
+    id = int(id) if id.isdigit() else -1
+
 c = ssr_path + " -s %s -p %s -k %s -m %s -o %s -O %s -d restart -q --pid-file %s/shadowsocksr.pid --log-file %s/shadowsocksr.log> /dev/null 2>&1" % (S[id]['s'],S[id]['p'],S[id]['k'],S[id]['m'],S[id]['o'],S[id]['O'],temp_path,temp_path)
 print u'已开启服务:ID:' + str(id).ljust(4) + u'地址:' + S[id]['s'].ljust(35) + u'位置:' + S[id]['l'] if os.system(c) == 0 else "程序出错"
