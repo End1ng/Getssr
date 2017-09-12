@@ -9,8 +9,10 @@ from bs4 import BeautifulSoup
 ssr_path = "/opt/shadowsocksr/shadowsocks/local.py"
 temp_path = os.path.expanduser('~') + "/.getSsr"
 True if os.path.exists(temp_path) else os.makedirs(temp_path)
-temp_file = temp_path + '/.temp_config.json'
+temp_file = temp_path + '/temp_config.json'
 S = {}
+
+use_old_data = True if '-n' in sys.argv else False
 
 def CtrlCHandler(signum, frame):
     sys.exit("\n再见!")
@@ -72,12 +74,13 @@ def doub():
         print "获取 " + url + " 失败"
 
 # 检查缓存文件如果在1小时之内就加载缓存
-if not os.path.exists(temp_file) or time.time() - os.path.getmtime(temp_file) > 3600 * 12:
-    print "获取中......"
-    doub()
-    # Alvin9999()
-    f = open(temp_file, 'w').write(json.dumps(S)) if S else True
+if not os.path.exists(temp_file) or not use_old_data or time.time() - os.path.getmtime(temp_file) > 3600 * 12:
+        print "获取中......"
+        doub()
+        # Alvin9999()
+        f = open(temp_file, 'w').write(json.dumps(S)) if S else True
 else:
+    sys.exit()
     print "获取缓存数据 创建于%d分钟之前" % ((time.time() - os.path.getmtime(temp_file)) / 60)
     S = {int(i): j for i, j in json.loads(open(temp_file, 'r').read()).items()}
 True if S else sys.exit("未获取到数据")
