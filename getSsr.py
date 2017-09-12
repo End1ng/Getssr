@@ -3,6 +3,12 @@
 
 # auther: ni7eipr
 
+"""
+-h 获取帮助
+-n 使用缓存列表
+-t 停止已开启服务
+"""
+
 import requests, re, sys, os, signal, base64, json, time
 from bs4 import BeautifulSoup
 
@@ -12,7 +18,9 @@ True if os.path.exists(temp_path) else os.makedirs(temp_path)
 temp_file = temp_path + '/temp_config.json'
 S = {}
 
-use_old_data = True if '-n' in sys.argv else False
+use_old_data = True if '-n' in sys.argv or '-t' in sys.argv else False
+use_stop = True if '-t' in sys.argv else False
+print __doc__;sys.exit() if '-h' in sys.argv else False
 
 def CtrlCHandler(signum, frame):
     sys.exit("\n再见!")
@@ -80,7 +88,6 @@ if not os.path.exists(temp_file) or not use_old_data or time.time() - os.path.ge
         # Alvin9999()
         f = open(temp_file, 'w').write(json.dumps(S)) if S else True
 else:
-    sys.exit()
     print "获取缓存数据 创建于%d分钟之前" % ((time.time() - os.path.getmtime(temp_file)) / 60)
     S = {int(i): j for i, j in json.loads(open(temp_file, 'r').read()).items()}
 True if S else sys.exit("未获取到数据")
@@ -93,5 +100,7 @@ while id not in S:
     id = raw_input("请输入id:")
     id = int(id) if id.isdigit() else -1
 
-c = ssr_path + " -s %s -p %s -k %s -m %s -o %s -O %s -d restart -q --pid-file %s/shadowsocksr.pid --log-file %s/shadowsocksr.log> /dev/null 2>&1" % (S[id]['s'],S[id]['p'],S[id]['k'],S[id]['m'],S[id]['o'],S[id]['O'],temp_path,temp_path)
-print u'已开启服务:ID:' + str(id).ljust(4) + u'地址:' + S[id]['s'].ljust(35) + u'位置:' + S[id]['l'] if os.system(c) == 0 else "程序出错"
+op = ['stop', u'停止'] if use_stop else ['restart', u'开启']
+
+c = ssr_path + " -s %s -p %s -k %s -m %s -o %s -O %s -d %s -q --pid-file %s/shadowsocksr.pid --log-file %s/shadowsocksr.log> /dev/null 2>&1" % (S[id]['s'],S[id]['p'],S[id]['k'],S[id]['m'],S[id]['o'],S[id]['O'],op[0],temp_path,temp_path)
+print u'已' + op[1] + u'服务:ID:' + str(id).ljust(4) + u'地址:' + S[id]['s'].ljust(35) + u'位置:' + S[id]['l'] if os.system(c) == 0 else "程序出错"
