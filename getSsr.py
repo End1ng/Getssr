@@ -18,6 +18,7 @@ temp_path = os.path.expanduser('~') + "/.getSsr"
 True if os.path.exists(temp_path) else os.makedirs(temp_path)
 temp_file = temp_path + '/temp_config.json'
 stop_file = temp_path + '/stop.sh'
+True if os.path.exists(stop_file) else open(stop_file, 'w')
 S = {}
 
 # 获取参数
@@ -43,11 +44,6 @@ def parse_ss(ss):
         return {'s':ss[1].split('@')[1],'p':ss[2],'O':'origin','m':ss[0],'o':'plain','k':ss[1].split('@')[0]}
     # ipv6 链接
     return {'s':':'.join(ss[:-5]),'p':ss[-5],'O':ss[-4],'m':ss[-3],'o':ss[-2],'k':parse_base64(ss[-1].split('/')[0])}
-
-True if os.path.exists(ssr_path) else sys.exit("未找到shadowsocksr 请安装:\n  sudo git clone https://github.com/Ni7eipr/shadowsocksr.git /opt/shadowsocksr\n或更改配置:\n  8 ssr_path = \"path\"")
-
-with open(stop_file, 'r') as f:
-    os.system(f.read());sys.exit('停止成功') if use_stop else False
 
 # 获取数据函数
 def Alvin9999():
@@ -89,6 +85,11 @@ def doub():
     except:
         print "获取 " + url + " 失败"
 
+True if os.path.exists(ssr_path) else sys.exit("未找到shadowsocksr 请安装:\n  sudo git clone https://github.com/Ni7eipr/shadowsocksr.git /opt/shadowsocksr\n或更改配置:\n  8 ssr_path = \"path\"")
+
+f_c = open(stop_file, 'r')
+os.system(f_c.read()) or sys.exit('停止成功') if use_stop else False
+
 # 检查缓存文件
 if not os.path.exists(temp_file) or not use_old_data or time.time() - os.path.getmtime(temp_file) > 3600 * 12:
     print "获取中......"
@@ -109,9 +110,9 @@ while id not in S:
     id = raw_input("请输入id:")
     id = int(id) if id.isdigit() else -1
 
-c = ssr_path + " -s %s -p %s -k %s -m %s -o %s -O %s -d %s -q --pid-file %s/shadowsocksr.pid --log-file %s/shadowsocksr.log> /dev/null 2>&1" % (S[id]['s'],S[id]['p'],S[id]['k'],S[id]['m'],S[id]['o'],S[id]['O'],'%s',temp_path,temp_path)
+c = ssr_path + " -s %s -p %s -k %s -m %s -o %s -O %s -d %s -q --pid-file %s/shadowsocksr.pid --log-file %s/shadowsocksr.log > /dev/null 2>&1" % (S[id]['s'],S[id]['p'],S[id]['k'],S[id]['m'],S[id]['o'],S[id]['O'],'%s',temp_path,temp_path)
 c_start = c % 'restart'
 c_stop = c % 'stop'
-with open(stop_file, 'w') as f:
-    f.write(c_stop)
+f_c = open(stop_file, 'w')
+f_c.write(c_stop)
 print u'已开启服务:ID:' + str(id).ljust(4) + u'地址:' + S[id]['s'].ljust(35) + u'位置:' + S[id]['l'] if os.system(c_start) == 0 else "程序出错"
