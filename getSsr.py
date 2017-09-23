@@ -5,7 +5,8 @@
 
 """
 -h 获取帮助
--n 使用缓存列表
+-c 使用缓存列表
+-f 强制刷新
 -t 停止已开启服务
 """
 
@@ -23,7 +24,8 @@ S = {}
 
 # 获取参数
 sys.exit(__doc__) if '-h' in sys.argv else False
-use_old_data = True if '-n' in sys.argv else False
+use_old_data = True if '-c' in sys.argv else False
+use_new_data = True if '-f' in sys.argv else False
 use_stop = True if '-t' in sys.argv else False
 
 #定义函数
@@ -65,25 +67,26 @@ def Alvin9999():
 
 def doub():
     url = "https://doub.bid/sszhfx"
-    try:
-        session = requests.Session()
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0'
-        }
-        res = session.get(url, headers=headers)
-        print re.search('<p id="problem">(.*)</p>', res.text).group(1)
-        input_text = raw_input("请输入答案:")
-        session.post(re.search('<form action="(.*)" method="post">', res.text).group(1), data={'post_password':input_text}, headers=headers)
-        res = session.get(url,  headers=headers).content
-        soup = BeautifulSoup(res, 'lxml')
-        for tr in soup.find_all('tr'):
-            td = tr.find_all('td')
-            if td.__len__() == 7:
+    session = requests.Session()
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0'
+    }
+    res = session.get(url, headers=headers)
+    print re.search('<p id="problem">(.*)</p>', res.text).group(1)
+    input_text = raw_input("请输入答案:")
+    session.post(re.search('<form action="(.*)" method="post">', res.text).group(1), data={'post_password':input_text}, headers=headers)
+    res = session.get(url,  headers=headers).content
+    soup = BeautifulSoup(res, 'lxml')
+    for tr in soup.find_all('tr'):
+        td = tr.find_all('td')
+        if td.__len__() == 7:
+            try:
                 id = S.__len__()
                 S[id] = parse_ss(td[6].find('a', "dl1")['href'].split('//')[2])
                 S[id]['l'] = td[0].text
-    except:
-        print "获取 " + url + " 失败"
+            except:
+                pass
+    print "获取 " + url + " 失败"
 
 True if os.path.exists(ssr_path) else sys.exit("未找到shadowsocksr 请安装:\n  sudo git clone https://github.com/Ni7eipr/shadowsocksr.git /opt/shadowsocksr\n或更改配置:\n  8 ssr_path = \"path\"")
 
@@ -91,7 +94,7 @@ f_c = open(stop_file, 'r')
 os.system(f_c.read()) or sys.exit('停止成功') if use_stop else False
 
 # 检查缓存文件
-if os.path.exists(temp_file) and time.time() - os.path.getmtime(temp_file) < 3600 * 12 or use_old_data:
+if not use_new_data and os.path.exists(temp_file) and time.time() - os.path.getmtime(temp_file) < 3600 * 12 or use_old_data:
     print "获取缓存数据 创建于%d分钟之前" % ((time.time() - os.path.getmtime(temp_file)) / 60)
     S = {int(i): j for i, j in json.loads(open(temp_file, 'r').read()).items()}
 else:
