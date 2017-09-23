@@ -91,14 +91,14 @@ f_c = open(stop_file, 'r')
 os.system(f_c.read()) or sys.exit('停止成功') if use_stop else False
 
 # 检查缓存文件
-if not os.path.exists(temp_file) or not use_old_data or time.time() - os.path.getmtime(temp_file) > 3600 * 12:
+if os.path.exists(temp_file) and time.time() - os.path.getmtime(temp_file) < 3600 * 12 or use_old_data:
+    print "获取缓存数据 创建于%d分钟之前" % ((time.time() - os.path.getmtime(temp_file)) / 60)
+    S = {int(i): j for i, j in json.loads(open(temp_file, 'r').read()).items()}
+else:
     print "获取中......"
 
     doub()
     # Alvin9999()
-else:
-    print "获取缓存数据 创建于%d分钟之前" % ((time.time() - os.path.getmtime(temp_file)) / 60)
-    S = {int(i): j for i, j in json.loads(open(temp_file, 'r').read()).items()}
 
 f = open(temp_file, 'w').write(json.dumps(S)) if S else sys.exit("未获取到数据")
 
