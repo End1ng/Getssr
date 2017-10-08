@@ -74,6 +74,8 @@ def doub():
     res = session.get(url, headers=headers)
     print re.search('<p id="problem">(.*)</p>', res.text).group(1)
     input_text = raw_input("请输入答案:")
+    while not input_text:
+        input_text = raw_input("请输入答案:")
     session.post(re.search('<form action="(.*)" method="post">', res.text).group(1), data={'post_password':input_text}, headers=headers)
     res = session.get(url,  headers=headers).content
     soup = BeautifulSoup(res, 'lxml')
