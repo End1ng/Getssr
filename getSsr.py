@@ -52,7 +52,7 @@ def parse_ss(ss):
     return {'s':':'.join(ss[:-5]),'p':ss[-5],'O':ss[-4],'m':ss[-3],'o':ss[-2],'k':parse_base64(ss[-1].split('/')[0])}
 
 def default():
-    with open('data.txt') as f:
+    with open(os.path.abspath(os.path.dirname(__file__)) + '/data.txt') as f:
         for i in f:
             sid = S.__len__()
             S[sid] = parse_ss(i.strip())
@@ -69,9 +69,7 @@ if not use_new_data and os.path.exists(temp_file) and time.time() - os.path.getm
     S = {int(i): j for i, j in json.loads(open(temp_file, 'r').read()).items()}
 else:
     print "获取中......"
-
-    doub()
-    # Alvin9999()
+    # 调用爬虫
     default()
 
 f = open(temp_file, 'w').write(json.dumps(S)) if S else sys.exit("未获取到数据")
